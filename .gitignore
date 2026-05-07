@@ -1,0 +1,35 @@
+# Build directories
+build/
+cmake-build-*/
+
+# Compiled files
+*.exe
+*.o
+*.obj
+*.dll
+*.lib
+*.so
+*.dylib
+
+# CMake generated files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# IDE files
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.sln.docstates
+*.vcxproj.filters
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# OpenSpec internal
+openspec/.openspec.yaml
