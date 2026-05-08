@@ -11,6 +11,7 @@ struct InputState {
     bool space = false;
     bool enter = false;
     bool escape = false;
+    bool mute = false;  // M key for mute toggle
 };
 
 // Processed key events (single press)
@@ -22,6 +23,7 @@ struct InputEvents {
     bool downHeld = false;
     bool enterPressed = false;
     bool escapePressed = false;
+    bool mutePressed = false;  // M key pressed
 };
 
 class InputHandler {
@@ -43,6 +45,7 @@ public:
         events.dropPressed = current.space && !previousState_.space;
         events.enterPressed = current.enter && !previousState_.enter;
         events.escapePressed = current.escape && !previousState_.escape;
+        events.mutePressed = current.mute && !previousState_.mute;
 
         // Down can be held for continuous soft drop
         events.downHeld = current.down;

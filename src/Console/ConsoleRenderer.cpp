@@ -293,4 +293,15 @@ void ConsoleRenderer::drawScoreBox() {
     drawString(INFO_OFFSET_X + 2, INFO_OFFSET_Y + 12, L"LINES:", textColor);
 }
 
+void ConsoleRenderer::renderMuteStatus(bool isMuted) {
+    WORD textColor = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+    WORD dimColor = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+
+    if (isMuted) {
+        drawString(INFO_OFFSET_X, INFO_OFFSET_Y + 20, L"M: Sound OFF", dimColor);
+    } else {
+        drawString(INFO_OFFSET_X, INFO_OFFSET_Y + 20, L"M: Sound ON ", textColor);
+    }
+}
+
 } // namespace tetris

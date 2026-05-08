@@ -12,6 +12,7 @@ InputState ConsoleInput::getState() {
     state.space = (GetAsyncKeyState(VK_SPACE) & 0x8000) != 0;
     state.enter = (GetAsyncKeyState(VK_RETURN) & 0x8000) != 0;
     state.escape = (GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0;
+    state.mute = (GetAsyncKeyState('M') & 0x8000) != 0;
     return state;
 }
 

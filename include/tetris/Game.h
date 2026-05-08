@@ -4,6 +4,7 @@
 #include "Tetromino.h"
 #include "Renderer.h"
 #include "InputHandler.h"
+#include "SoundManager.h"
 #include "Types.h"
 #include <memory>
 
@@ -25,6 +26,7 @@ private:
 
     std::unique_ptr<Renderer> renderer_;
     std::unique_ptr<InputHandler> input_;
+    SoundManager soundManager_;
 
     int score_;
     int linesCleared_;

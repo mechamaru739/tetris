@@ -28,6 +28,9 @@ public:
     // Render score and lines
     virtual void renderScore(int score, int lines) = 0;
 
+    // Render mute status
+    virtual void renderMuteStatus(bool isMuted) = 0;
+
     // Render game over screen
     virtual void renderGameOver(int finalScore, int finalLines) = 0;
 

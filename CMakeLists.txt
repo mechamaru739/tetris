@@ -10,6 +10,7 @@ add_executable(tetris
     src/Tetromino.cpp
     src/Board.cpp
     src/Game.cpp
+    src/SoundManager.cpp
     src/Console/ConsoleRenderer.cpp
     src/Console/ConsoleInput.cpp
 )

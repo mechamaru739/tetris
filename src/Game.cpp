@@ -66,6 +66,7 @@ void Game::spawnTetromino() {
     // Check game over
     if (!board_.canPlace(*current_)) {
         state_ = GameState::GAME_OVER;
+        soundManager_.play(SoundType::GAME_OVER);
     }
 }
 
@@ -92,6 +93,11 @@ void Game::handleGameInput() {
 
     InputEvents events = input_->getEvents();
 
+    // Handle mute toggle
+    if (events.mutePressed) {
+        soundManager_.toggleMute();
+    }
+
     if (!current_) return;
 
     // Rotation
@@ -103,19 +109,30 @@ void Game::handleGameInput() {
 
             // Try moving left
             current_->setX(originalX - 1);
-            if (board_.canPlace(*current_)) return;
+            if (board_.canPlace(*current_)) {
+                soundManager_.play(SoundType::ROTATE);
+                return;
+            }
 
             // Try moving right
             current_->setX(originalX + 1);
-            if (board_.canPlace(*current_)) return;
+            if (board_.canPlace(*current_)) {
+                soundManager_.play(SoundType::ROTATE);
+                return;
+            }
 
             // Try moving right 2 (for I piece)
             current_->setX(originalX + 2);
-            if (board_.canPlace(*current_)) return;
+            if (board_.canPlace(*current_)) {
+                soundManager_.play(SoundType::ROTATE);
+                return;
+            }
 
             // Revert rotation
             current_->setX(originalX);
             current_->rotateCounterClockwise();
+        } else {
+            soundManager_.play(SoundType::ROTATE);
         }
     }
 
@@ -124,6 +141,8 @@ void Game::handleGameInput() {
         current_->moveLeft();
         if (!board_.canPlace(*current_)) {
             current_->moveRight();
+        } else {
+            soundManager_.play(SoundType::MOVE);
         }
     }
 
@@ -132,6 +151,8 @@ void Game::handleGameInput() {
         current_->moveRight();
         if (!board_.canPlace(*current_)) {
             current_->moveLeft();
+        } else {
+            soundManager_.play(SoundType::MOVE);
         }
     }
 
@@ -140,6 +161,7 @@ void Game::handleGameInput() {
         current_->moveDown();
         if (!board_.canPlace(*current_)) {
             current_->moveUp();
+            soundManager_.play(SoundType::SOFT_DROP);
             lockPiece();
         }
     }
@@ -150,6 +172,7 @@ void Game::handleGameInput() {
             current_->moveDown();
         }
         current_->moveUp();
+        soundManager_.play(SoundType::HARD_DROP);
         lockPiece();
     }
 }
@@ -218,6 +241,7 @@ void Game::render() {
     switch (state_) {
         case GameState::MENU:
             renderer_->renderMenu();
+            renderer_->renderMuteStatus(soundManager_.isMuted());
             break;
 
         case GameState::PLAYING:
@@ -232,11 +256,13 @@ void Game::render() {
                 renderer_->renderNextPiece(*next_);
             }
             renderer_->renderScore(score_, linesCleared_);
+            renderer_->renderMuteStatus(soundManager_.isMuted());
             break;
 
         case GameState::GAME_OVER:
             renderer_->renderBoard(board_);
             renderer_->renderGameOver(score_, linesCleared_);
+            renderer_->renderMuteStatus(soundManager_.isMuted());
             break;
     }
 
@@ -254,6 +280,7 @@ void Game::lockPiece() {
         isClearingLines_ = true;
         flashTimer_ = 0;
         flashFrame_ = 0;
+        soundManager_.play(SoundType::CLEAR_LINE);
     } else {
         // No lines to clear, spawn next piece immediately
         spawnTetromino();

@@ -19,6 +19,7 @@ public:
     void renderNextPiece(const Tetromino& next) override;
     void renderFlashLines(const Board& board, const std::vector<int>& lines, int flashFrame) override;
     void renderScore(int score, int lines) override;
+    void renderMuteStatus(bool isMuted) override;
     void renderGameOver(int finalScore, int finalLines) override;
     void renderMenu() override;
     void present() override;
